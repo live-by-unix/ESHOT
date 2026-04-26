@@ -3,11 +3,12 @@ export default {
     const url = new URL(request.url);
     if (url.pathname === "/api/check") {
       const d = url.searchParams.get("d");
-      const res = await fetch(`https://cloudflare-dns.com/dns-query?name=${d}&type=A`, {
+      if (!d) return new Response(null, { status: 400 });
+      const dns = await fetch(`https://cloudflare-dns.com/dns-query?name=${d}&type=A`, {
         headers: { "accept": "application/dns-json" }
       });
-      const json = await res.json();
-      return new Response(JSON.stringify({ ok: json.Status === 3 }), {
+      const res = await dns.json();
+      return new Response(JSON.stringify({ ok: res.Status === 3 }), {
         headers: { "content-type": "application/json" }
       });
     }
