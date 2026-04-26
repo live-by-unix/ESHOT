@@ -3,46 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESHOT | DOMAIN INDEX</title>
+    <title>ESHOT | THE GLOBAL domain INDEX</title>
     <style>
         :root { --p: #00ff88; --b: #050505; --c: #111; --t: #eee; }
         body { background: var(--b); color: var(--t); font-family: sans-serif; margin: 0; padding: 20px; }
-        .wrap { max-width: 800px; margin: 0 auto; }
-        header { text-align: center; padding: 40px 0; }
-        h1 { font-size: 5rem; font-weight: 900; margin: 0; color: var(--p); letter-spacing: -3px; }
+        .wrap { max-width: 900px; margin: 0 auto; }
+        header { text-align: center; padding: 50px 0; }
+        h1 { font-size: 6rem; font-weight: 900; margin: 0; color: var(--p); letter-spacing: -5px; }
         .bar { position: sticky; top: 20px; z-index: 9; background: var(--b); padding: 10px 0; }
-        input { width: 100%; padding: 25px; font-size: 1.5rem; background: var(--c); border: 2px solid #222; border-radius: 12px; color: #fff; box-sizing: border-box; outline: none; }
+        input { width: 100%; padding: 25px; font-size: 1.5rem; background: var(--c); border: 2px solid #222; border-radius: 20px; color: #fff; box-sizing: border-box; outline: none; transition: 0.2s; }
         input:focus { border-color: var(--p); }
-        .tags { display: flex; gap: 8px; margin: 20px 0; justify-content: center; }
-        .tag { background: #1a1a1a; border: 1px solid #333; color: #888; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; }
+        .tags { display: flex; gap: 8px; margin: 20px 0; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+        .tag { background: #1a1a1a; border: 1px solid #333; color: #888; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-size: 0.8rem; white-space: nowrap; font-weight: bold; }
         .tag.on { background: var(--p); color: #000; border-color: var(--p); }
-        .item { background: var(--c); margin-bottom: 8px; padding: 20px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #222; }
-        .name { font-size: 1.2rem; font-weight: bold; }
-        .price { font-size: 1.5rem; color: var(--p); font-weight: 800; }
-        .buy { background: #fff; color: #000; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 900; margin-left: 15px; }
+        .grid { display: grid; gap: 10px; }
+        .item { background: var(--c); padding: 25px; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; border: 1px solid #222; transition: 0.3s; }
+        .item:hover { border-color: var(--p); transform: scale(1.01); }
+        .name { font-size: 1.4rem; font-weight: 900; }
+        .price { font-size: 1.8rem; color: var(--p); font-weight: 900; }
+        .buy { background: #fff; color: #000; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: 900; margin-left: 20px; transition: 0.2s; }
+        .buy:hover { background: var(--p); }
     </style>
 </head>
 <body>
     <div class="wrap">
-        <header><h1>ESHOT</h1></header>
+        <header><h1>ESHOT</h1><p style="opacity:0.4; letter-spacing:8px;">INDEX EVERYTHING</p></header>
         <div class="bar">
-            <input type="text" id="q" placeholder="ENTER NAME..." autocomplete="off">
-            <div class="tags">
+            <input type="text" id="q" placeholder="TYPE TO INDEX..." autocomplete="off" spellcheck="false">
+            <div class="tags" id="tc">
                 <div class="tag on" onclick="st('all', this)">ALL</div>
-                <div class="tag" onclick="st('cheap', this)">UNDER $15</div>
                 <div class="tag" onclick="st('tech', this)">TECH</div>
+                <div class="tag" onclick="st('shop', this)">COMMERCE</div>
+                <div class="tag" onclick="st('creative', this)">CREATIVE</div>
+                <div class="tag" onclick="st('geo', this)">GLOBAL</div>
             </div>
         </div>
-        <div id="r"></div>
+        <div id="r" class="grid"></div>
     </div>
     <script>
         const db = {
             "com": { p: 9.15, r: "Cloudflare", cat: "all" },
             "net": { p: 11.01, r: "Porkbun", cat: "all" },
-            "org": { p: 12.50, r: "Namecheap", cat: "all" },
-            "io": { p: 32.50, r: "Porkbun", cat: "tech" },
             "ai": { p: 65.00, r: "Namecheap", cat: "tech" },
-            "xyz": { p: 1.99, r: "Porkbun", cat: "cheap" }
+            "io": { p: 32.50, r: "Porkbun", cat: "tech" },
+            "dev": { p: 12.00, r: "Google", cat: "tech" },
+            "app": { p: 14.00, r: "Google", cat: "tech" },
+            "shop": { p: 2.99, r: "Porkbun", cat: "shop" },
+            "store": { p: 4.88, r: "Namecheap", cat: "shop" },
+            "co": { p: 24.00, r: "Porkbun", cat: "shop" },
+            "design": { p: 19.00, r: "Namecheap", cat: "creative" },
+            "studio": { p: 15.00, r: "Porkbun", cat: "creative" },
+            "xyz": { p: 1.99, r: "Porkbun", cat: "creative" },
+            "us": { p: 8.50, r: "Namecheap", cat: "geo" },
+            "uk": { p: 7.50, r: "Porkbun", cat: "geo" },
+            "ca": { p: 10.00, r: "Porkbun", cat: "geo" }
         };
         let f = 'all';
         function st(v, e) {
@@ -53,18 +67,19 @@
         }
         async function search() {
             const v = document.getElementById('q').value.trim().toLowerCase().split('.')[0];
-            if (v.length < 2) return;
+            if (v.length < 2) { document.getElementById('r').innerHTML = ''; return; }
             let h = '';
             for (const [tld, i] of Object.entries(db)) {
-                if (f === 'cheap' && i.p > 15) continue;
-                if (f === 'tech' && i.cat !== 'tech') continue;
+                if (f !== 'all' && i.cat !== f) continue;
                 const d = `${v}.${tld}`;
-                const res = await fetch(`/api/check?d=${d}`);
-                const data = await res.json();
-                h += `<div class="item">
-                    <div><div class="name">${d}</div><div style="color:${data.ok?'#0f8':'#f44'}">${data.ok?'AVAILABLE':'TAKEN'}</div></div>
-                    <div style="display:flex;align-items:center"><div class="price">$${i.p}</div><a href="https://${i.r}.com" class="buy">BOOM</a></div>
-                </div>`;
+                try {
+                    const res = await fetch(`/api/check?d=${d}`);
+                    const data = await res.json();
+                    h += `<div class="item">
+                        <div><div class="name">${d}</div><div style="font-size:0.7rem; font-weight:bold; color:${data.ok?'#0f8':'#f44'}">${data.ok?'AVAILABLE':'TAKEN'}</div></div>
+                        <div style="display:flex;align-items:center"><div class="price">$${i.p}</div><a href="https://${i.r.toLowerCase()}.com" target="_blank" class="buy">BOOM</a></div>
+                    </div>`;
+                } catch (e) {}
             }
             document.getElementById('r').innerHTML = h;
         }
