@@ -1,17 +1,16 @@
 export default {
-  async fetch(req) {
-    const url = new URL(req.url);
+  async fetch(request, env) {
+    const url = new URL(request.url);
     if (url.pathname === "/api/check") {
       const d = url.searchParams.get("d");
-      if (!d) return new Response(null, { status: 400 });
-      const dns = await fetch(`https://cloudflare-dns.com/dns-query?name=${d}&type=A`, {
+      const res = await fetch(`https://cloudflare-dns.com/dns-query?name=${d}&type=A`, {
         headers: { "accept": "application/dns-json" }
       });
-      const res = await dns.json();
-      return new Response(JSON.stringify({ ok: res.Status === 3 }), {
+      const json = await res.json();
+      return new Response(JSON.stringify({ ok: json.Status === 3 }), {
         headers: { "content-type": "application/json" }
       });
     }
-    return fetch(req);
+    return env.ASSETS.fetch(request);
   }
 };
